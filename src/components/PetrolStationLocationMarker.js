@@ -1,18 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 // Constants
-export const markerWidth = 300
+export const markerWidth = 330
 export const markerHeight = 140
 
 // Styled components
 const Main = styled.div`
     width: ${markerWidth}px;
-    height: ${markerHeight}px;
+    /* height: ${markerHeight}px; */
     border-radius: 8px;
     background-color: white;
     position: relative;
     box-shadow: -8px 6px 33px -4px rgba(0, 0, 0, 0.32);
+    overflow: hidden;
 `
 const Triangle = styled.div`
     width: 0;
@@ -30,7 +32,7 @@ const TopContainer = styled.div`
     left: 0px;
     width: 100%;
     /* border: 1px solid red; */
-    padding: 15px;
+    padding: 20px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -43,12 +45,17 @@ const LogoWrapper = styled.div`
     background-repeat: no-repeat;
     background-size: contain;
     box-sizing: border-box;
+    margin-right: 5px;
 `
 const TextWrapper = styled.div`
     height: 100%;
     flex: 2;
     /* border: 3px solid pink; */
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
 `
 const ButtonsWrapper = styled.div`
     height: 100%;
@@ -98,14 +105,30 @@ const RefreshButton = styled.button`
         opacity: 1;
     }
 `
+const SubTitle = styled.span`
+    color: #5093ff;
+    font-size: 13px;
+    font-weight: 600;
+`
+const Title = styled.span`
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+`
 
 const PetrolStationLocationMarker = (props) => {
     const data = props.petrolStationData
     return (
         <Main>
             <TopContainer>
+                <LinearProgress
+                    style={{ width: '100%', position: 'absolute', top: '0px', left: '0px', color: '#5093ff' }}
+                />
                 <LogoWrapper url={data.logoUrl} />
-                <TextWrapper></TextWrapper>
+                <TextWrapper>
+                    <SubTitle>{data.subTitle}</SubTitle>
+                    <Title>{data.name}</Title>
+                </TextWrapper>
                 <ButtonsWrapper>
                     <RefreshButton />
                     <OpenItemButton>
