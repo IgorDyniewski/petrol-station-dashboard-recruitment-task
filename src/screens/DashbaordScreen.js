@@ -44,7 +44,7 @@ const DashboardScreen = (props) => {
     const [viewport, setViewport] = useState({
         latitude: 29.76102,
         longitude: -95.362778,
-        zoom: 8,
+        zoom: 9,
     })
     const onViewportChange = (nextViewPort) => {
         setViewport(nextViewPort)

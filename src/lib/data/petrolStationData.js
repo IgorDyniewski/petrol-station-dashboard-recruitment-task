@@ -5,7 +5,7 @@ function timeOut(ms) {
 
 const availablePetrolStations = [
     {
-        id: 1,
+        id: 0,
         lat: 29.517814,
         lon: -95.885914,
         subTitle: 'US 59',
@@ -14,11 +14,29 @@ const availablePetrolStations = [
             'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Open_Source_Initiative_keyhole.svg/1024px-Open_Source_Initiative_keyhole.svg.png',
     },
     {
-        id: 2,
+        id: 1,
         lat: 29.348663,
         lon: -95.016849,
         subTitle: 'TX 6',
         name: 'Hitchcock Petrol Station',
+        logoUrl:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Open_Source_Initiative_keyhole.svg/1024px-Open_Source_Initiative_keyhole.svg.png',
+    },
+    {
+        id: 2,
+        lat: 30.316649,
+        lon: -93.670274,
+        subTitle: 'LA 12',
+        name: 'Old River Road Petrol Station',
+        logoUrl:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Open_Source_Initiative_keyhole.svg/1024px-Open_Source_Initiative_keyhole.svg.png',
+    },
+    {
+        id: 3,
+        lat: 29.986343,
+        lon: -94.208519,
+        subTitle: 'Smith Road',
+        name: 'Cheek Petrol Station',
         logoUrl:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Open_Source_Initiative_keyhole.svg/1024px-Open_Source_Initiative_keyhole.svg.png',
     },
