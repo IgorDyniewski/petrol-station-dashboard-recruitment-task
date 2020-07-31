@@ -1,20 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import LinearProgress from '@material-ui/core/LinearProgress'
 
+// Lib
+import { fetchPetrolTanksLevels } from '../lib/data/petrolStationData'
+
 // Constants
 export const markerWidth = 330
-export const markerHeight = 140
+export const markerHeight = 100
 
 // Styled components
 const Main = styled.div`
     width: ${markerWidth}px;
-    /* height: ${markerHeight}px; */
+    height: ${(props) =>
+        props.amountOfRows === 0 ? markerHeight + 'px' : markerHeight + 20 * props.amountOfRows + 'px'};
     border-radius: 8px;
     background-color: white;
     position: relative;
     box-shadow: -8px 6px 33px -4px rgba(0, 0, 0, 0.32);
-    /* overflow: hidden; */
+    transition: height 300ms ease-in, transform 300ms ease-in;
+    transform: ${(props) =>
+        props.amountOfRows === 0 ? 'translateY(0px)' : 'translateY(' + props.amountOfRows * -20 + 'px)'};
 `
 const Triangle = styled.div`
     width: 0;
@@ -125,15 +131,52 @@ const FakeProgressWrapper = styled.div`
     height: 100%;
     width: 100%;
 `
+const BottomContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`
+const LevelRow = styled.div`
+    width: 100%;
+    height: 20px;
+`
 
 const PetrolStationLocationMarker = (props) => {
     const data = props.petrolStationData
+
+    // Refs
+    const nodeRef = useRef(null)
+
+    // States
+    const [tankLevels, setTankLevels] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [nodeHeight, setNodeHeight] = useState(null)
+
+    // Did mount
+    useEffect(() => {
+        // Setting node height after it renders
+        setNodeHeight(nodeRef.current.clientHeight)
+
+        // Fetching tank levels
+        const fetchTankLevels = async () => {
+            const tankLevels = await fetchPetrolTanksLevels(data.id)
+            setIsLoading(false)
+            setTankLevels(tankLevels)
+        }
+        fetchTankLevels()
+        // eslint-disable-next-line
+    }, [])
+
     return (
-        <Main>
+        <Main amountOfRows={tankLevels.length} ref={nodeRef} nodeHeight={nodeHeight}>
             <TopContainer>
-                <FakeProgressWrapper>
-                    <LinearProgress style={{ width: '100%', top: '0px', left: '0px', color: '#5093ff' }} />
-                </FakeProgressWrapper>
+                {isLoading && (
+                    <FakeProgressWrapper>
+                        <LinearProgress
+                            style={{ width: '100%', top: '0px', left: '0px', backgroundColor: '#5093ff' }}
+                        />
+                    </FakeProgressWrapper>
+                )}
                 <LogoWrapper url={data.logoUrl} />
                 <TextWrapper>
                     <SubTitle>{data.subTitle}</SubTitle>
@@ -146,6 +189,11 @@ const PetrolStationLocationMarker = (props) => {
                     </OpenItemButton>
                 </ButtonsWrapper>
             </TopContainer>
+            {/* <BottomContainer>
+                {tankLevels.map((tankLevel, index) => (
+                    <LevelRow key={index}></LevelRow>
+                ))}
+            </BottomContainer> */}
             <Triangle />
         </Main>
     )

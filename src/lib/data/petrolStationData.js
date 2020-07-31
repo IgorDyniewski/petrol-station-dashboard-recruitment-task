@@ -49,3 +49,20 @@ export const fetchPetrolStationsLocations = async () => {
     await timeOut(0)
     return availablePetrolStations
 }
+
+// Generating fake petrol tanks levels
+export const fetchPetrolTanksLevels = async (id) => {
+    const timeOutVal = Math.floor(Math.random() * 8000) + 100 // Fake random api response time for checking tank levels
+    await timeOut(timeOutVal)
+
+    // Getting available petrol types for station
+    const availablePetrolTypes = availablePetrolStations.filter((petrolStation) => petrolStation.id === id)[0]
+        .availablePetrolTypes
+
+    // Generating fake tank levels for each station
+    let tankLevels = []
+    availablePetrolTypes.forEach((petrolType) =>
+        tankLevels.push({ type: petrolType, level: Math.floor(Math.random() * 10) + 1 })
+    )
+    return tankLevels
+}
