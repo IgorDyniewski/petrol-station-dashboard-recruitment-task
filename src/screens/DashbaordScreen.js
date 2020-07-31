@@ -6,6 +6,7 @@ import { CircularProgress } from '@material-ui/core'
 // Lib
 import mapBoxConstants from '../lib/mapBoxConstants'
 import { fetchPetrolStationsLocations } from '../lib/data/petrolStationData'
+import { markerHeight, markerWidth } from '../components/PetrolStationLocationMarker'
 
 // Components
 import PetrolStationLocationMarker from '../components/PetrolStationLocationMarker'
@@ -86,8 +87,8 @@ const DashboardScreen = (props) => {
                         <Marker
                             latitude={station.lat}
                             longitude={station.lon}
-                            offsetLeft={-20}
-                            offsetTop={-10}
+                            offsetLeft={-markerWidth / 2}
+                            offsetTop={-markerHeight}
                             key={key}
                         >
                             <PetrolStationLocationMarker petrolStationData={station} />
