@@ -14,7 +14,7 @@ const Main = styled.div`
     background-color: white;
     position: relative;
     box-shadow: -8px 6px 33px -4px rgba(0, 0, 0, 0.32);
-    overflow: hidden;
+    /* overflow: hidden; */
 `
 const Triangle = styled.div`
     width: 0;
@@ -115,15 +115,25 @@ const Title = styled.span`
     font-size: 16px;
     font-weight: 600;
 `
+const FakeProgressWrapper = styled.div`
+    pointer-events: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    border-radius: 8px;
+    height: 100%;
+    width: 100%;
+`
 
 const PetrolStationLocationMarker = (props) => {
     const data = props.petrolStationData
     return (
         <Main>
             <TopContainer>
-                <LinearProgress
-                    style={{ width: '100%', position: 'absolute', top: '0px', left: '0px', color: '#5093ff' }}
-                />
+                <FakeProgressWrapper>
+                    <LinearProgress style={{ width: '100%', top: '0px', left: '0px', color: '#5093ff' }} />
+                </FakeProgressWrapper>
                 <LogoWrapper url={data.logoUrl} />
                 <TextWrapper>
                     <SubTitle>{data.subTitle}</SubTitle>
