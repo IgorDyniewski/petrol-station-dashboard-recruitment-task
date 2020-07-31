@@ -56,7 +56,6 @@ const ButtonsWrapper = styled.div`
     /* border: 1px solid black; */
     display: flex;
     align-items: center;
-    /* flex: 2; */
 `
 const OpenItemButton = styled.button`
     width: 40px;
