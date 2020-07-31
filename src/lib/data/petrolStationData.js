@@ -62,7 +62,7 @@ export const fetchPetrolTanksLevels = async (id) => {
     // Generating fake tank levels for each station
     let tankLevels = []
     availablePetrolTypes.forEach((petrolType) =>
-        tankLevels.push({ type: petrolType, level: Math.floor(Math.random() * 10) + 1 })
+        tankLevels.push({ type: petrolType, level: Math.floor(Math.random() * 100) + 1 })
     )
     return tankLevels
 }
