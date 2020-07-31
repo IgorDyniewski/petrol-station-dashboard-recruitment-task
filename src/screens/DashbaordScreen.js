@@ -5,6 +5,10 @@ import { CircularProgress } from '@material-ui/core'
 
 // Lib
 import mapBoxConstants from '../lib/mapBoxConstants'
+import { fetchPetrolStationsLocations } from '../lib/data/petrolStationData'
+
+// Components
+import PetrolStationLocationMarker from '../components/PetrolStationLocationMarker'
 
 // Styled components
 const Main = styled.div`
@@ -13,14 +17,6 @@ const Main = styled.div`
     left: 0px;
     width: 100vw;
     height: 100vh;
-`
-const TestMarker = styled.div`
-    width: 200px;
-    height: 300px;
-    background-color: white;
-    :hover {
-        background-color: red;
-    }
 `
 const LoadingOverlay = styled.div`
     width: 100vw;
@@ -34,6 +30,7 @@ const LoadingOverlay = styled.div`
     align-items: center;
     opacity: ${(props) => (props.isOpen ? 1 : 0)};
     pointer-events: ${(props) => (props.isOpen ? 'all' : 'none')};
+    transition: opacity 300ms ease-in;
 `
 
 const DashboardScreen = (props) => {
@@ -41,11 +38,12 @@ const DashboardScreen = (props) => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [windowHeight, setWindowHeight] = useState(window.innerHeight)
     const [isLoading, setIsLoading] = useState(true)
+    const [petrolStationsLocations, setPetrolStationsLocations] = useState([])
 
     // Mapbox setup
     const [viewport, setViewport] = useState({
-        latitude: 37.7577,
-        longitude: -122.4376,
+        latitude: 29.76102,
+        longitude: -95.362778,
         zoom: 8,
     })
     const onViewportChange = (nextViewPort) => {
@@ -58,6 +56,14 @@ const DashboardScreen = (props) => {
             setWindowWidth(window.innerWidth)
             setWindowHeight(window.innerHeight)
         })
+
+        // Fetching data
+        const fetchInItData = async () => {
+            const data = await fetchPetrolStationsLocations()
+            setPetrolStationsLocations(data)
+            setIsLoading(false)
+        }
+        fetchInItData()
 
         // Will unmount
         return () => {
@@ -75,12 +81,21 @@ const DashboardScreen = (props) => {
                 mapStyle={mapBoxConstants.styleUrl}
                 mapboxApiAccessToken={mapBoxConstants.mapboxApiAccessToken}
             >
-                {/* <Marker latitude={37.78} longitude={-122.41} offsetLeft={-20} offsetTop={-10}>
-                    <TestMarker>You are here</TestMarker>
-                </Marker> */}
+                {petrolStationsLocations.length > 0 &&
+                    petrolStationsLocations.map((station, key) => (
+                        <Marker
+                            latitude={station.lat}
+                            longitude={station.lon}
+                            offsetLeft={-20}
+                            offsetTop={-10}
+                            key={key}
+                        >
+                            <PetrolStationLocationMarker petrolStationData={station} />
+                        </Marker>
+                    ))}
             </ReactMapGL>
             <LoadingOverlay isOpen={isLoading}>
-                <CircularProgress style={{ color: '#5093FF' }} />
+                <CircularProgress style={{ color: 'white' }} />
             </LoadingOverlay>
         </Main>
     )
