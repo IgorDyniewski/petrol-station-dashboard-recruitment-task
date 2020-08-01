@@ -20,7 +20,7 @@ const Main = styled.div`
     box-shadow: -8px 6px 33px -4px rgba(0, 0, 0, 0.32);
     transition: height 200ms ease-in, transform 200ms ease-in;
     transform: ${(props) =>
-        props.amountOfRows === 0 ? 'translateY(0px)' : 'translateY(' + props.amountOfRows * -20 + 'px)'};
+        props.amountOfRows === 0 ? 'translateY(0px)' : 'translateY(calc(' + props.amountOfRows * -20 + 'px - 20px))'};
 `
 const Triangle = styled.div`
     width: 0;

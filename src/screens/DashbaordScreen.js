@@ -88,7 +88,7 @@ const DashboardScreen = (props) => {
                             latitude={station.lat}
                             longitude={station.lon}
                             offsetLeft={-markerWidth / 2}
-                            offsetTop={-markerHeight}
+                            offsetTop={-markerHeight - 12}
                             key={key}
                         >
                             <PetrolStationLocationMarker petrolStationData={station} />
