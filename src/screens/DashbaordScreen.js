@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import { CircularProgress } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import queryString from 'query-string'
 
 // Lib
 import mapBoxConstants from '../lib/mapBoxConstants'
@@ -41,14 +43,24 @@ const DashboardScreen = (props) => {
     const [isLoading, setIsLoading] = useState(true)
     const [petrolStationsLocations, setPetrolStationsLocations] = useState([])
 
+    // React router
+    const history = useHistory()
+
+    // Parsing query params
+    const { lat, lon, zoom } = queryString.parse(props.location.search)
+
     // Mapbox setup
     const [viewport, setViewport] = useState({
-        latitude: 29.76102,
-        longitude: -95.362778,
-        zoom: 9,
+        latitude: lat ? parseFloat(lat) : parseFloat(mapBoxConstants.defaultLatitude),
+        longitude: lon ? parseFloat(lon) : parseFloat(mapBoxConstants.defaultLongitude),
+        zoom: zoom ? parseFloat(zoom) : 9,
     })
     const onViewportChange = (nextViewPort) => {
         setViewport(nextViewPort)
+        history.push({
+            pathname: '/',
+            search: `?lat=${nextViewPort.latitude}&lon=${nextViewPort.longitude}&zoom=${nextViewPort.zoom}`,
+        })
     }
 
     useEffect(() => {
