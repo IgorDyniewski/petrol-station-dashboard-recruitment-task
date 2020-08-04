@@ -12,6 +12,7 @@ import { markerHeight, markerWidth } from '../components/PetrolStationLocationMa
 
 // Components
 import PetrolStationLocationMarker from '../components/PetrolStationLocationMarker'
+import SidePanel from '../components/SidePanel'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -41,13 +42,14 @@ const LoadingOverlay = styled.div`
 
 const DashboardScreen = (props) => {
     // States
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth + 520)
     const [windowHeight, setWindowHeight] = useState(window.innerHeight)
     const [isLoading, setIsLoading] = useState(true)
     const [petrolStationsLocations, setPetrolStationsLocations] = useState([])
 
     // Redux
     const mapViewPortState = useSelector((state) => state.mapViewPortState)
+
     const dispatch = useDispatch()
 
     // React router
@@ -58,10 +60,19 @@ const DashboardScreen = (props) => {
 
     // Map box setup
     const onViewportChange = (nextViewPort) => {
+        // Updating map state
         dispatch({
             type: 'UPDATE_MAP_VIEWPORT_STATE',
             payload: { ...nextViewPort },
         })
+
+        // Closing side panel
+        dispatch({
+            type: 'UPDATE_ACTIVE_NODE_STATE',
+            payload: null,
+        })
+
+        // Updating location
         history.push({
             pathname: '/',
             search: `?lat=${nextViewPort.latitude}&lon=${nextViewPort.longitude}&zoom=${nextViewPort.zoom}`,
@@ -126,6 +137,8 @@ const DashboardScreen = (props) => {
             <LoadingOverlay isOpen={isLoading}>
                 <CircularProgress style={{ color: 'white' }} />
             </LoadingOverlay>
+            <SidePanel />
+            50
         </Main>
     )
 }

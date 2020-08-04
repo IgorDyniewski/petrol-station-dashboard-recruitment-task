@@ -4,3 +4,9 @@ export function updateMapViewPortState(nextViewport) {
         payload: nextViewport,
     }
 }
+export function updateActiveNode(nodeId) {
+    return {
+        type: 'UPDATE_ACTIVE_NODE_ID',
+        payload: nodeId,
+    }
+}
