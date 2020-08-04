@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 // Components / Widgets
 import TankLevels from './SideBarTankLevelsWidget'
+import LivePrices from './SideBarLivePricesWidget'
 
 // Lib
 import { availablePetrolStations } from '../lib/data/petrolStationData'
@@ -189,17 +190,7 @@ const SidePanel = (props) => {
             <ContentWrapper>
                 <div style={{ height: '110px' }} />
                 <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
+                <LivePrices id={petrolStationData.id} />
             </ContentWrapper>
         </Main>
     )

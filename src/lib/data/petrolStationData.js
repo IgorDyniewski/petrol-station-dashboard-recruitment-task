@@ -66,3 +66,51 @@ export const fetchPetrolTanksLevels = async (id) => {
     )
     return tankLevels
 }
+
+// Generating live fake live prices
+export const fetchPrices = async (id) => {
+    // Generating labels
+    let labels = []
+    const dateNow = new Date()
+    for (let i = dateNow.getHours() - 12; i <= dateNow.getHours(); i++) {
+        const hour = String(i)
+        labels.push(hour.length === 1 ? `0${hour}:00` : `${hour}:00`)
+    }
+
+    // Generating datasets
+    let dataSets = []
+    const availablePetrolTypes = availablePetrolStations.filter((station) => station.id === id)[0].availablePetrolTypes
+
+    const defaultDataset = {
+        label: 'My First dataset',
+        fill: false,
+        lineTension: 0.1,
+        borderColor: 'rgba(75,192,192,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [65, 59, 80, 81, 56, 55, 40],
+    }
+
+    availablePetrolTypes.forEach((type) => {
+        const randomColor = Math.floor(Math.random() * 16777215).toString(16) // Generating random  border color
+        const data = []
+        for (let i = 0; i < 12; i++)
+            data.push(
+                parseFloat((Math.floor(Math.random() * 4) + 3 + (Math.floor(Math.random() * 100) + 0) / 100).toFixed(2))
+            )
+        dataSets.push({ ...defaultDataset, label: type, data: data, borderColor: `#${randomColor}` })
+    })
+
+    return { labels: labels, datasets: dataSets }
+}
