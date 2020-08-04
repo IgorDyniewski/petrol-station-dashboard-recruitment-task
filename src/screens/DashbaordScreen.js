@@ -9,9 +9,12 @@ import queryString from 'query-string'
 import mapBoxConstants from '../lib/mapBoxConstants'
 import { fetchPetrolStationsLocations } from '../lib/data/petrolStationData'
 import { markerHeight, markerWidth } from '../components/PetrolStationLocationMarker'
+import { mobileScreenWidth } from '../components/SidePanel'
+import { mobileMarkerWidth, mobileMarkerScreenSize } from '../components/PetrolStationLocationMarker'
 
 // Components
 import PetrolStationLocationMarker from '../components/PetrolStationLocationMarker'
+import SidePanel from '../components/SidePanel'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -48,6 +51,7 @@ const DashboardScreen = (props) => {
 
     // Redux
     const mapViewPortState = useSelector((state) => state.mapViewPortState)
+
     const dispatch = useDispatch()
 
     // React router
@@ -58,10 +62,20 @@ const DashboardScreen = (props) => {
 
     // Map box setup
     const onViewportChange = (nextViewPort) => {
+        // Updating map state
         dispatch({
             type: 'UPDATE_MAP_VIEWPORT_STATE',
             payload: { ...nextViewPort },
         })
+
+        // // Might use it later for auto closing side panel ----
+        // dispatch({
+        //     type: 'UPDATE_ACTIVE_NODE_STATE',
+        //     // payload: null,
+        //     payload: 0, // DEV
+        // })
+
+        // Updating location
         history.push({
             pathname: '/',
             search: `?lat=${nextViewPort.latitude}&lon=${nextViewPort.longitude}&zoom=${nextViewPort.zoom}`,
@@ -104,7 +118,7 @@ const DashboardScreen = (props) => {
         <Main>
             <ReactMapGL
                 {...mapViewPortState}
-                width={windowWidth}
+                width={windowWidth > mobileScreenWidth ? windowWidth + 520 : windowWidth}
                 height={windowHeight}
                 onViewportChange={(nextViewport) => onViewportChange(nextViewport)}
                 mapStyle={mapBoxConstants.styleUrl}
@@ -115,7 +129,9 @@ const DashboardScreen = (props) => {
                         <Marker
                             latitude={station.lat}
                             longitude={station.lon}
-                            offsetLeft={-markerWidth / 2}
+                            offsetLeft={
+                                windowWidth <= mobileMarkerScreenSize ? -mobileMarkerWidth / 2 : -markerWidth / 2
+                            }
                             offsetTop={-markerHeight - 12}
                             key={key}
                         >
@@ -126,6 +142,8 @@ const DashboardScreen = (props) => {
             <LoadingOverlay isOpen={isLoading}>
                 <CircularProgress style={{ color: 'white' }} />
             </LoadingOverlay>
+            <SidePanel />
+            50
         </Main>
     )
 }

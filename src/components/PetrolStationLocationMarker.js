@@ -15,10 +15,17 @@ import { useSelector, useDispatch } from 'react-redux'
 export const markerWidth = 330
 export const markerHeight = 100
 
+// Changing size on mobile
+export const mobileMarkerScreenSize = 615
+export const mobileMarkerWidth = 290
+
 // Styled components
 const Main = styled.div`
     cursor: pointer;
     width: ${markerWidth}px;
+    @media (max-width: ${mobileMarkerScreenSize}px) {
+        width: ${mobileMarkerWidth}px;
+    }
     height: ${(props) =>
         props.amountOfRows === 0 ? markerHeight + 'px' : 20 + markerHeight + 20 * props.amountOfRows + 'px'};
     border-radius: 8px;
@@ -38,6 +45,9 @@ const Triangle = styled.div`
     position: absolute;
     bottom: -11px;
     left: ${markerWidth / 2 - 6}px;
+    @media (max-width: ${mobileMarkerScreenSize}px) {
+        left: ${mobileMarkerWidth / 2 - 6}px;
+    }
 `
 const TopContainer = styled.div`
     position: relative;
@@ -213,6 +223,8 @@ const PetrolStationLocationMarker = (props) => {
 
     // Refs
     const nodeRef = useRef(null)
+    const refreshButtonRef = useRef(null)
+    const moreInfoButtonRef = useRef(null)
 
     // States
     const [tankLevels, setTankLevels] = useState([])
@@ -234,27 +246,51 @@ const PetrolStationLocationMarker = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    // On click move to location
-    const onNodeClick = () => {
+    // Updating side panel active node to current node
+    const updateActiveNodeToCurrentNode = () => {
+        // Updating redux store
         dispatch({
-            type: 'UPDATE_MAP_VIEWPORT_STATE',
-            payload: {
-                ...mapViewPortState,
-                latitude: data.lat,
-                longitude: data.lon,
-                transitionDuration: mapBoxConstants.animationDuration,
-                zoom: mapBoxConstants.activeNodeZoom,
-                transitionInterpolator: new FlyToInterpolator(),
-            },
-        })
-        history.push({
-            pathname: '/',
-            search: `?lat=${data.lat}&lon=${data.lon}&zoom=${9}`,
+            type: 'UPDATE_ACTIVE_NODE_STATE',
+            payload: data.id,
         })
     }
 
+    // On click move to location
+    const onNodeClick = (e) => {
+        if (e.target === refreshButtonRef.current || e.target === moreInfoButtonRef.current) return
+        // Preventing child components to react onClick
+        else {
+            // Updating map viewport
+            dispatch({
+                type: 'UPDATE_MAP_VIEWPORT_STATE',
+                payload: {
+                    ...mapViewPortState,
+                    latitude: data.lat,
+                    longitude: data.lon,
+                    transitionDuration: mapBoxConstants.animationDuration,
+                    zoom: mapBoxConstants.activeNodeZoom,
+                    transitionInterpolator: new FlyToInterpolator(),
+                },
+            })
+
+            // Updating active station button
+            updateActiveNodeToCurrentNode()
+
+            // Updating Url
+            history.push({
+                pathname: '/',
+                search: `?lat=${data.lat}&lon=${data.lon}&zoom=${9}`,
+            })
+        }
+    }
+
+    // On more information button click
+    const onMoreInfoClick = () => {
+        updateActiveNodeToCurrentNode()
+    }
+
     return (
-        <Main amountOfRows={tankLevels.length} ref={nodeRef} nodeHeight={nodeHeight} onClick={() => onNodeClick()}>
+        <Main amountOfRows={tankLevels.length} ref={nodeRef} nodeHeight={nodeHeight} onClick={(e) => onNodeClick(e)}>
             <TopContainer>
                 {isLoading && (
                     <FakeProgressWrapper>
@@ -269,8 +305,8 @@ const PetrolStationLocationMarker = (props) => {
                     <Title>{data.name}</Title>
                 </TextWrapper>
                 <ButtonsWrapper>
-                    <RefreshButton />
-                    <OpenItemButton>
+                    <RefreshButton ref={refreshButtonRef} />
+                    <OpenItemButton ref={moreInfoButtonRef} onClick={() => onMoreInfoClick()}>
                         <OpenItemButtonIcon src={'/icons/arrow.svg'} alt="arrow icon" />
                     </OpenItemButton>
                 </ButtonsWrapper>

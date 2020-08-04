@@ -8,3 +8,28 @@ body {
 mapboxgl-canvas {
     left: 0;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+    background-color: #555;
+
+    @media (max-width: 900px) {
+        width: 0px;
+    }
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
