@@ -78,7 +78,11 @@ const DashboardScreen = (props) => {
         // Setting proper location from query params
         dispatch({
             type: 'UPDATE_MAP_VIEWPORT_STATE',
-            payload: { latitude: parseFloat(lat), longitude: parseFloat(lon), zoom: parseInt(zoom) },
+            payload: {
+                latitude: parseFloat(lat) ? parseFloat(lat) : parseFloat(mapBoxConstants.defaultLatitude),
+                longitude: parseFloat(lon) ? parseFloat(lon) : parseFloat(mapBoxConstants.defaultLongitude),
+                zoom: parseFloat(zoom) ? parseFloat(zoom) : parseFloat(mapBoxConstants.defaultZoom),
+            },
         })
 
         // Fetching data
