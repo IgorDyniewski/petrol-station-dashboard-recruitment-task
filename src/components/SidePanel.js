@@ -22,7 +22,7 @@ const Main = styled.div`
     width: 540px;
     height: calc(100vh - 80px);
     background-color: white;
-    border-radius: 12px;
+    border-radius: 8px;
     transition: transform 200ms ease-in;
     transform: ${(props) => (props.isOpen ? 'translateX(0px)' : 'translateX(-600px)')};
     box-shadow: 0px 0px 20px 20px rgba(0, 0, 0, 0.2);
@@ -136,7 +136,7 @@ export const WidgetTitle = styled.span`
     color: black;
     font-size: 20px;
     font-weight: 600;
-    margin-top: 15px;
+    margin-top: 25px;
     position: relative;
     display: block;
     @media (max-width: 650px) {
