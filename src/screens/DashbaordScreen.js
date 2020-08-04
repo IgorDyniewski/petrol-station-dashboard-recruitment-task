@@ -15,6 +15,7 @@ import { mobileMarkerWidth, mobileMarkerScreenSize } from '../components/PetrolS
 // Components
 import PetrolStationLocationMarker from '../components/PetrolStationLocationMarker'
 import SidePanel from '../components/SidePanel'
+import UserAccountActions from '../components/UserAccountActions'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -143,7 +144,7 @@ const DashboardScreen = (props) => {
                 <CircularProgress style={{ color: 'white' }} />
             </LoadingOverlay>
             <SidePanel />
-            50
+            <UserAccountActions />
         </Main>
     )
 }
