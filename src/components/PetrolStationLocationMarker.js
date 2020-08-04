@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled, { keyframes } from 'styled-components'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import { useHistory } from 'react-router-dom'
 
 // Lib
 import { fetchPetrolTanksLevels } from '../lib/data/petrolStationData'
@@ -197,6 +198,9 @@ const LevelBarInnerColor = styled.div`
 const PetrolStationLocationMarker = (props) => {
     const data = props.petrolStationData
 
+    // React router
+    const history = useHistory()
+
     // Refs
     const nodeRef = useRef(null)
 
@@ -220,8 +224,16 @@ const PetrolStationLocationMarker = (props) => {
         // eslint-disable-next-line
     }, [])
 
+    // On click move to location
+    const onNodeClick = () => {
+        history.push({
+            pathname: '/',
+            search: `?lat=${data.lat}&lon=${data.lon}&zoom=${9}`,
+        })
+    }
+
     return (
-        <Main amountOfRows={tankLevels.length} ref={nodeRef} nodeHeight={nodeHeight}>
+        <Main amountOfRows={tankLevels.length} ref={nodeRef} nodeHeight={nodeHeight} onClick={() => onNodeClick()}>
             <TopContainer>
                 {isLoading && (
                     <FakeProgressWrapper>

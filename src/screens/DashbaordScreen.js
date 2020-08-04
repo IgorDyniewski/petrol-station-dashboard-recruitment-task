@@ -13,6 +13,9 @@ import { markerHeight, markerWidth } from '../components/PetrolStationLocationMa
 // Components
 import PetrolStationLocationMarker from '../components/PetrolStationLocationMarker'
 
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
+
 // Styled components
 const Main = styled.div`
     position: fixed;
@@ -43,20 +46,22 @@ const DashboardScreen = (props) => {
     const [isLoading, setIsLoading] = useState(true)
     const [petrolStationsLocations, setPetrolStationsLocations] = useState([])
 
+    // Redux
+    const mapViewPortState = useSelector((state) => state.mapViewPortState)
+    const dispatch = useDispatch()
+
     // React router
     const history = useHistory()
 
     // Parsing query params
     const { lat, lon, zoom } = queryString.parse(props.location.search)
 
-    // Mapbox setup
-    const [viewport, setViewport] = useState({
-        latitude: lat ? parseFloat(lat) : parseFloat(mapBoxConstants.defaultLatitude),
-        longitude: lon ? parseFloat(lon) : parseFloat(mapBoxConstants.defaultLongitude),
-        zoom: zoom ? parseFloat(zoom) : 9,
-    })
+    // Map box setup
     const onViewportChange = (nextViewPort) => {
-        setViewport(nextViewPort)
+        dispatch({
+            type: 'UPDATE_MAP_VIEWPORT_STATE',
+            payload: { ...nextViewPort },
+        })
         history.push({
             pathname: '/',
             search: `?lat=${nextViewPort.latitude}&lon=${nextViewPort.longitude}&zoom=${nextViewPort.zoom}`,
@@ -68,6 +73,12 @@ const DashboardScreen = (props) => {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
             setWindowHeight(window.innerHeight)
+        })
+
+        // Setting proper location from query params
+        dispatch({
+            type: 'UPDATE_MAP_VIEWPORT_STATE',
+            payload: { latitude: parseFloat(lat), longitude: parseFloat(lon), zoom: parseInt(zoom) },
         })
 
         // Fetching data
@@ -82,12 +93,13 @@ const DashboardScreen = (props) => {
         return () => {
             window.removeEventListener('window-resize', () => {})
         }
+        // eslint-disable-next-line
     }, [])
 
     return (
         <Main>
             <ReactMapGL
-                {...viewport}
+                {...mapViewPortState}
                 width={windowWidth}
                 height={windowHeight}
                 onViewportChange={(nextViewport) => onViewportChange(nextViewport)}
