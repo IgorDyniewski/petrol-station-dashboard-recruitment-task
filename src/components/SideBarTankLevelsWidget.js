@@ -87,13 +87,13 @@ const SideBarTankLevelsWidget = (props) => {
     useEffect(() => {
         // Fetching tank levels
         const fetchTankLevels = async () => {
+            setIsLoading(true)
             const tankLevels = await fetchPetrolTanksLevels(id)
             setIsLoading(false)
             setTankLevels(tankLevels)
         }
         fetchTankLevels()
-        // eslint-disable-next-line
-    }, [])
+    }, [id])
 
     return (
         <Main>

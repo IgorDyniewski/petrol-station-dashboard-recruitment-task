@@ -46,7 +46,7 @@ export const availablePetrolStations = [
 
 // Generating fake petrol stations locations
 export const fetchPetrolStationsLocations = async () => {
-    await timeOut(0)
+    await timeOut(200)
     return availablePetrolStations
 }
 
@@ -69,6 +69,9 @@ export const fetchPetrolTanksLevels = async (id) => {
 
 // Generating live fake live prices
 export const fetchPrices = async (id) => {
+    const timeOutVal = Math.floor(Math.random() * 2000) + 100 // Fake random api response time for checking tank levels
+    await timeOut(timeOutVal)
+
     // Generating labels
     let labels = []
     const dateNow = new Date()

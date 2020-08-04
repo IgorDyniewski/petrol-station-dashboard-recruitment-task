@@ -164,7 +164,7 @@ const SidePanel = (props) => {
         setIsOpen(true)
         setPetrolStationData(availablePetrolStations[activeNodeState])
 
-        // eslint-disable-next-line
+        // xeslint-disable-next-line
     }, [activeNodeState])
 
     // Closing panel
@@ -191,7 +191,12 @@ const SidePanel = (props) => {
                 <div style={{ height: '110px' }} />
                 <TankLevels id={petrolStationData.id} />
                 <LivePrices id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <LivePrices id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <LivePrices id={petrolStationData.id} />
             </ContentWrapper>
+            {petrolStationData.id}
         </Main>
     )
 }
