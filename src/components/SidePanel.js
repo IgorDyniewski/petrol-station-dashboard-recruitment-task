@@ -76,14 +76,14 @@ const CloseButton = styled.div`
         opacity: 0.5;
     }
 `
-const ContentWrapper = styled.div`
-    width: 100%;
-    /* border: 2px solid black; */
-    margin-top: 110px;
-    height: calc(100% - 110px);
-    overflow-x: hidden;
-    overflow-y: scroll;
-`
+// const ContentWrapper = styled.div`
+//     width: 100%;
+//     /* border: 2px solid black; */
+//     margin-top: 110px;
+//     height: calc(100% - 110px);
+//     overflow-x: hidden;
+//     overflow-y: scroll;
+// `
 
 const SidePanel = (props) => {
     // Redux
