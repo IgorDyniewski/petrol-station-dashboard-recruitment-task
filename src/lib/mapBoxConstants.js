@@ -5,4 +5,6 @@ module.exports = {
     defaultLatitude: '29.76102',
     defaultLongitude: '-95.362778',
     defaultZoom: 9,
+    animationDuration: 500,
+    activeNodeZoom: 10,
 }

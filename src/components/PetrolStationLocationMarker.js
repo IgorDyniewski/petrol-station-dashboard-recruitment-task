@@ -2,9 +2,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled, { keyframes } from 'styled-components'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { useHistory } from 'react-router-dom'
+import { FlyToInterpolator } from 'react-map-gl'
 
 // Lib
 import { fetchPetrolTanksLevels } from '../lib/data/petrolStationData'
+import mapBoxConstants from '../lib/mapBoxConstants'
+
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
 
 // Constants
 export const markerWidth = 330
@@ -12,6 +17,7 @@ export const markerHeight = 100
 
 // Styled components
 const Main = styled.div`
+    cursor: pointer;
     width: ${markerWidth}px;
     height: ${(props) =>
         props.amountOfRows === 0 ? markerHeight + 'px' : 20 + markerHeight + 20 * props.amountOfRows + 'px'};
@@ -198,6 +204,10 @@ const LevelBarInnerColor = styled.div`
 const PetrolStationLocationMarker = (props) => {
     const data = props.petrolStationData
 
+    // Redux
+    const dispatch = useDispatch()
+    const mapViewPortState = useSelector((state) => state.mapViewPortState)
+
     // React router
     const history = useHistory()
 
@@ -226,6 +236,17 @@ const PetrolStationLocationMarker = (props) => {
 
     // On click move to location
     const onNodeClick = () => {
+        dispatch({
+            type: 'UPDATE_MAP_VIEWPORT_STATE',
+            payload: {
+                ...mapViewPortState,
+                latitude: data.lat,
+                longitude: data.lon,
+                transitionDuration: mapBoxConstants.animationDuration,
+                zoom: mapBoxConstants.activeNodeZoom,
+                transitionInterpolator: new FlyToInterpolator(),
+            },
+        })
         history.push({
             pathname: '/',
             search: `?lat=${data.lat}&lon=${data.lon}&zoom=${9}`,
