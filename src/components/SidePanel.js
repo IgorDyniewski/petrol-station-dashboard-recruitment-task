@@ -7,6 +7,9 @@ import { availablePetrolStations } from '../lib/data/petrolStationData'
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
 
+// Exports for media tags
+export const mobileScreenWidth = 1020
+
 // Styled components
 const Main = styled.div`
     position: fixed;
@@ -21,6 +24,20 @@ const Main = styled.div`
     box-shadow: 0px 0px 20px 20px rgba(0, 0, 0, 0.2);
     overflow-y: scroll;
     overflow: hidden;
+    z-index: 10;
+
+    @media (max-width: ${mobileScreenWidth}px) {
+        width: 100vw;
+        left: 0px;
+        top: auto;
+        bottom: 0px;
+        height: calc(100vh - 80px);
+        border-radius: 0px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        transition: transform 400ms ease-in;
+        transform: ${(props) => (props.isOpen ? 'translateY(0px)' : 'translateY(100vh)')};
+    }
 `
 const HeaderWrapper = styled.div`
     width: 100%;
@@ -30,16 +47,25 @@ const HeaderWrapper = styled.div`
     display: flex;
     align-items: center;
     box-sizing: border-box;
+    @media (max-width: 650px) {
+        padding: 16px;
+    }
 `
 const SubTitle = styled.span`
     color: #5093ff;
     font-size: 16px;
     font-weight: 600;
+    @media (max-width: 650px) {
+        font-size: 13px;
+    }
 `
 const Title = styled.span`
     color: black;
     font-size: 20px;
     font-weight: 600;
+    @media (max-width: 650px) {
+        font-size: 16px;
+    }
 `
 const LogoWrapper = styled.div`
     width: 60px;
@@ -50,6 +76,10 @@ const LogoWrapper = styled.div`
     background-size: contain;
     box-sizing: border-box;
     margin-right: 5px;
+    @media (max-width: 650px) {
+        width: 40px;
+        height: 40px;
+    }
 `
 const TextWrapper = styled.div`
     height: 100%;

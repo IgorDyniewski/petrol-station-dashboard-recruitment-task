@@ -9,6 +9,8 @@ import queryString from 'query-string'
 import mapBoxConstants from '../lib/mapBoxConstants'
 import { fetchPetrolStationsLocations } from '../lib/data/petrolStationData'
 import { markerHeight, markerWidth } from '../components/PetrolStationLocationMarker'
+import { mobileScreenWidth } from '../components/SidePanel'
+import { mobileMarkerWidth, mobileMarkerScreenSize } from '../components/PetrolStationLocationMarker'
 
 // Components
 import PetrolStationLocationMarker from '../components/PetrolStationLocationMarker'
@@ -42,7 +44,7 @@ const LoadingOverlay = styled.div`
 
 const DashboardScreen = (props) => {
     // States
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth + 520)
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [windowHeight, setWindowHeight] = useState(window.innerHeight)
     const [isLoading, setIsLoading] = useState(true)
     const [petrolStationsLocations, setPetrolStationsLocations] = useState([])
@@ -67,11 +69,11 @@ const DashboardScreen = (props) => {
         })
 
         // Might use it later for auto closing side panel ----
-        dispatch({
-            type: 'UPDATE_ACTIVE_NODE_STATE',
-            // payload: null,
-            payload: 0,
-        })
+        // dispatch({
+        //     type: 'UPDATE_ACTIVE_NODE_STATE',
+        //     payload: null,
+        //     // payload: 0, // DEV
+        // })
 
         // Updating location
         history.push({
@@ -83,7 +85,7 @@ const DashboardScreen = (props) => {
     useEffect(() => {
         // Did mount
         window.addEventListener('resize', () => {
-            setWindowWidth(window.innerWidth + 520)
+            setWindowWidth(window.innerWidth)
             setWindowHeight(window.innerHeight)
         })
 
@@ -116,7 +118,7 @@ const DashboardScreen = (props) => {
         <Main>
             <ReactMapGL
                 {...mapViewPortState}
-                width={windowWidth}
+                width={windowWidth > mobileScreenWidth ? windowWidth + 520 : windowWidth}
                 height={windowHeight}
                 onViewportChange={(nextViewport) => onViewportChange(nextViewport)}
                 mapStyle={mapBoxConstants.styleUrl}
@@ -127,7 +129,9 @@ const DashboardScreen = (props) => {
                         <Marker
                             latitude={station.lat}
                             longitude={station.lon}
-                            offsetLeft={-markerWidth / 2}
+                            offsetLeft={
+                                windowWidth <= mobileMarkerScreenSize ? -mobileMarkerWidth / 2 : -markerWidth / 2
+                            }
                             offsetTop={-markerHeight - 12}
                             key={key}
                         >

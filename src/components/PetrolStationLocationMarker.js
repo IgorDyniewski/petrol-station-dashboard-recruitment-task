@@ -15,10 +15,17 @@ import { useSelector, useDispatch } from 'react-redux'
 export const markerWidth = 330
 export const markerHeight = 100
 
+// Changing size on mobile
+export const mobileMarkerScreenSize = 615
+export const mobileMarkerWidth = 290
+
 // Styled components
 const Main = styled.div`
     cursor: pointer;
     width: ${markerWidth}px;
+    @media (max-width: ${mobileMarkerScreenSize}px) {
+        width: ${mobileMarkerWidth}px;
+    }
     height: ${(props) =>
         props.amountOfRows === 0 ? markerHeight + 'px' : 20 + markerHeight + 20 * props.amountOfRows + 'px'};
     border-radius: 8px;
@@ -38,6 +45,9 @@ const Triangle = styled.div`
     position: absolute;
     bottom: -11px;
     left: ${markerWidth / 2 - 6}px;
+    @media (max-width: ${mobileMarkerScreenSize}px) {
+        left: ${mobileMarkerWidth / 2 - 6}px;
+    }
 `
 const TopContainer = styled.div`
     position: relative;
