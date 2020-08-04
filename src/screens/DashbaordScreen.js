@@ -67,11 +67,11 @@ const DashboardScreen = (props) => {
         })
 
         // Might use it later for auto closing side panel ----
-        // dispatch({
-        //     type: 'UPDATE_ACTIVE_NODE_STATE',
-        //     payload: null,
-        //     // payload: 0,
-        // })
+        dispatch({
+            type: 'UPDATE_ACTIVE_NODE_STATE',
+            // payload: null,
+            payload: 0,
+        })
 
         // Updating location
         history.push({

@@ -19,6 +19,7 @@ const Main = styled.div`
     transition: transform 200ms ease-in;
     transform: ${(props) => (props.isOpen ? 'translateX(0px)' : 'translateX(-600px)')};
     box-shadow: 0px 0px 20px 20px rgba(0, 0, 0, 0.2);
+    overflow-y: scroll;
     overflow: hidden;
 `
 const HeaderWrapper = styled.div`
@@ -75,6 +76,14 @@ const CloseButton = styled.div`
         opacity: 0.5;
     }
 `
+const ContentWrapper = styled.div`
+    width: 100%;
+    /* border: 2px solid black; */
+    margin-top: 110px;
+    height: calc(100% - 110px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+`
 
 const SidePanel = (props) => {
     // Redux
@@ -119,6 +128,9 @@ const SidePanel = (props) => {
                 </TextWrapper>
                 <CloseButton onClick={() => onClosePanel()} />
             </HeaderWrapper>
+            {/* <ContentWrapper>
+                <div style={{ height: '1000px', width: '50px', backgroundColor: 'red' }} />
+            </ContentWrapper> */}
         </Main>
     )
 }
