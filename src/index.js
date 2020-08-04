@@ -9,13 +9,21 @@ import './index.css'
 // Screens
 import DashboardScreen from './screens/DashbaordScreen'
 
+// Redux
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import allReducers from './redux/reducers'
+const store = createStore(allReducers)
+
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <Switch>
-                <Route path="/" component={DashboardScreen} />
-            </Switch>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <Switch>
+                    <Route path="/" component={DashboardScreen} />
+                </Switch>
+            </BrowserRouter>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 )

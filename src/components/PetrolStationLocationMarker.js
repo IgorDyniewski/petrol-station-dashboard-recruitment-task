@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled, { keyframes } from 'styled-components'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import { useHistory } from 'react-router-dom'
+import { FlyToInterpolator } from 'react-map-gl'
 
 // Lib
 import { fetchPetrolTanksLevels } from '../lib/data/petrolStationData'
+import mapBoxConstants from '../lib/mapBoxConstants'
+
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
 
 // Constants
 export const markerWidth = 330
@@ -11,6 +17,7 @@ export const markerHeight = 100
 
 // Styled components
 const Main = styled.div`
+    cursor: pointer;
     width: ${markerWidth}px;
     height: ${(props) =>
         props.amountOfRows === 0 ? markerHeight + 'px' : 20 + markerHeight + 20 * props.amountOfRows + 'px'};
@@ -20,7 +27,7 @@ const Main = styled.div`
     box-shadow: -8px 6px 33px -4px rgba(0, 0, 0, 0.32);
     transition: height 200ms ease-in, transform 200ms ease-in;
     transform: ${(props) =>
-        props.amountOfRows === 0 ? 'translateY(0px)' : 'translateY(' + props.amountOfRows * -20 + 'px)'};
+        props.amountOfRows === 0 ? 'translateY(0px)' : 'translateY(calc(' + props.amountOfRows * -20 + 'px - 20px))'};
 `
 const Triangle = styled.div`
     width: 0;
@@ -197,6 +204,13 @@ const LevelBarInnerColor = styled.div`
 const PetrolStationLocationMarker = (props) => {
     const data = props.petrolStationData
 
+    // Redux
+    const dispatch = useDispatch()
+    const mapViewPortState = useSelector((state) => state.mapViewPortState)
+
+    // React router
+    const history = useHistory()
+
     // Refs
     const nodeRef = useRef(null)
 
@@ -220,8 +234,27 @@ const PetrolStationLocationMarker = (props) => {
         // eslint-disable-next-line
     }, [])
 
+    // On click move to location
+    const onNodeClick = () => {
+        dispatch({
+            type: 'UPDATE_MAP_VIEWPORT_STATE',
+            payload: {
+                ...mapViewPortState,
+                latitude: data.lat,
+                longitude: data.lon,
+                transitionDuration: mapBoxConstants.animationDuration,
+                zoom: mapBoxConstants.activeNodeZoom,
+                transitionInterpolator: new FlyToInterpolator(),
+            },
+        })
+        history.push({
+            pathname: '/',
+            search: `?lat=${data.lat}&lon=${data.lon}&zoom=${9}`,
+        })
+    }
+
     return (
-        <Main amountOfRows={tankLevels.length} ref={nodeRef} nodeHeight={nodeHeight}>
+        <Main amountOfRows={tankLevels.length} ref={nodeRef} nodeHeight={nodeHeight} onClick={() => onNodeClick()}>
             <TopContainer>
                 {isLoading && (
                     <FakeProgressWrapper>

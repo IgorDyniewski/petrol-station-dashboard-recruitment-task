@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import { CircularProgress } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import queryString from 'query-string'
 
 // Lib
 import mapBoxConstants from '../lib/mapBoxConstants'
@@ -10,6 +12,9 @@ import { markerHeight, markerWidth } from '../components/PetrolStationLocationMa
 
 // Components
 import PetrolStationLocationMarker from '../components/PetrolStationLocationMarker'
+
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
 
 // Styled components
 const Main = styled.div`
@@ -41,14 +46,26 @@ const DashboardScreen = (props) => {
     const [isLoading, setIsLoading] = useState(true)
     const [petrolStationsLocations, setPetrolStationsLocations] = useState([])
 
-    // Mapbox setup
-    const [viewport, setViewport] = useState({
-        latitude: 29.76102,
-        longitude: -95.362778,
-        zoom: 9,
-    })
+    // Redux
+    const mapViewPortState = useSelector((state) => state.mapViewPortState)
+    const dispatch = useDispatch()
+
+    // React router
+    const history = useHistory()
+
+    // Parsing query params
+    const { lat, lon, zoom } = queryString.parse(props.location.search)
+
+    // Map box setup
     const onViewportChange = (nextViewPort) => {
-        setViewport(nextViewPort)
+        dispatch({
+            type: 'UPDATE_MAP_VIEWPORT_STATE',
+            payload: { ...nextViewPort },
+        })
+        history.push({
+            pathname: '/',
+            search: `?lat=${nextViewPort.latitude}&lon=${nextViewPort.longitude}&zoom=${nextViewPort.zoom}`,
+        })
     }
 
     useEffect(() => {
@@ -56,6 +73,16 @@ const DashboardScreen = (props) => {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
             setWindowHeight(window.innerHeight)
+        })
+
+        // Setting proper location from query params
+        dispatch({
+            type: 'UPDATE_MAP_VIEWPORT_STATE',
+            payload: {
+                latitude: parseFloat(lat) ? parseFloat(lat) : parseFloat(mapBoxConstants.defaultLatitude),
+                longitude: parseFloat(lon) ? parseFloat(lon) : parseFloat(mapBoxConstants.defaultLongitude),
+                zoom: parseFloat(zoom) ? parseFloat(zoom) : parseFloat(mapBoxConstants.defaultZoom),
+            },
         })
 
         // Fetching data
@@ -70,12 +97,13 @@ const DashboardScreen = (props) => {
         return () => {
             window.removeEventListener('window-resize', () => {})
         }
+        // eslint-disable-next-line
     }, [])
 
     return (
         <Main>
             <ReactMapGL
-                {...viewport}
+                {...mapViewPortState}
                 width={windowWidth}
                 height={windowHeight}
                 onViewportChange={(nextViewport) => onViewportChange(nextViewport)}
@@ -88,7 +116,7 @@ const DashboardScreen = (props) => {
                             latitude={station.lat}
                             longitude={station.lon}
                             offsetLeft={-markerWidth / 2}
-                            offsetTop={-markerHeight}
+                            offsetTop={-markerHeight - 12}
                             key={key}
                         >
                             <PetrolStationLocationMarker petrolStationData={station} />
