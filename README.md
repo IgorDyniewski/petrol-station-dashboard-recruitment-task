@@ -1,6 +1,6 @@
 # Petrol station dashboard-recruitment task
 
-Checkout live app: [Petrol Station Dashboard](https://xecta-petrol-station-dashboard.vercel.app)
+Checkout live app: [Petrol Station Dashboard](https://petrol-station-dashboard-recruitment-task.vercel.app/)
 
 ![Screenshot](https://xecta-petrol-station-dashboard.vercel.app/github-screenshot.png)
 

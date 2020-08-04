@@ -46,7 +46,7 @@ export const availablePetrolStations = [
 
 // Generating fake petrol stations locations
 export const fetchPetrolStationsLocations = async () => {
-    await timeOut(200)
+    await timeOut(1000)
     return availablePetrolStations
 }
 
