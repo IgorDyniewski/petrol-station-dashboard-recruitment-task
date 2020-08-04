@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+// Components / Widgets
+import TankLevels from './SideBarTankLevelsWidget'
+
 // Lib
 import { availablePetrolStations } from '../lib/data/petrolStationData'
 
@@ -50,6 +53,16 @@ const HeaderWrapper = styled.div`
     @media (max-width: 650px) {
         padding: 16px;
     }
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid #ebebeb;
+
+    /* Might use later */
+    /* @supports (backdrop-filter: blur(20px)) {
+        background-color: transparent;
+        backdrop-filter: blur(15px) brightness(95%);
+    } */
 `
 const SubTitle = styled.span`
     color: #5093ff;
@@ -68,14 +81,14 @@ const Title = styled.span`
     }
 `
 const LogoWrapper = styled.div`
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     background-image: url("${(props) => props.url}");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
     box-sizing: border-box;
-    margin-right: 5px;
+    margin-right: 10px;
     @media (max-width: 650px) {
         width: 40px;
         height: 40px;
@@ -106,14 +119,29 @@ const CloseButton = styled.div`
         opacity: 0.5;
     }
 `
-// const ContentWrapper = styled.div`
-//     width: 100%;
-//     /* border: 2px solid black; */
-//     margin-top: 110px;
-//     height: calc(100% - 110px);
-//     overflow-x: hidden;
-//     overflow-y: scroll;
-// `
+const ContentWrapper = styled.div`
+    width: 100%;
+    /* border: 2px solid black; */
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-left: 25px;
+    padding-right: 25px;
+    box-sizing: border-box;
+`
+
+// Components for widgets
+export const WidgetTitle = styled.span`
+    color: black;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 15px;
+    position: relative;
+    display: block;
+    @media (max-width: 650px) {
+        font-size: 16px;
+    }
+`
 
 const SidePanel = (props) => {
     // Redux
@@ -158,9 +186,21 @@ const SidePanel = (props) => {
                 </TextWrapper>
                 <CloseButton onClick={() => onClosePanel()} />
             </HeaderWrapper>
-            {/* <ContentWrapper>
-                <div style={{ height: '1000px', width: '50px', backgroundColor: 'red' }} />
-            </ContentWrapper> */}
+            <ContentWrapper>
+                <div style={{ height: '110px' }} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+                <TankLevels id={petrolStationData.id} />
+            </ContentWrapper>
         </Main>
     )
 }
