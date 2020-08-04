@@ -1,4 +1,8 @@
-# Petrol station dashboard example for Xecta
+# Petrol station dashboard-recruitment task
+
+Checkout live app: [Petrol Station Dashboard](https://xecta-petrol-station-dashboard.vercel.app)
+
+![Screenshot](https://xecta-petrol-station-dashboard.vercel.app/github-screenshot.png)
 
 ## Available Scripts
 
