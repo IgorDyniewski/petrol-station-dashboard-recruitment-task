@@ -238,9 +238,16 @@ const PetrolStationLocationMarker = (props) => {
 
     // Updating side panel active node to current node
     const updateActiveNodeToCurrentNode = () => {
+        // Updating redux store
         dispatch({
             type: 'UPDATE_ACTIVE_NODE_STATE',
             payload: data.id,
+        })
+
+        // Updating Url
+        history.push({
+            pathname: '/',
+            search: `?lat=${mapViewPortState.latitude}&lon=${mapViewPortState.longitude}&zoom=${mapViewPortState.zoom}`,
         })
     }
 

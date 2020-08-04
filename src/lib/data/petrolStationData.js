@@ -3,7 +3,7 @@ function timeOut(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-const availablePetrolStations = [
+export const availablePetrolStations = [
     {
         id: 0,
         lat: 29.517814,

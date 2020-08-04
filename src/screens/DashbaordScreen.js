@@ -70,6 +70,7 @@ const DashboardScreen = (props) => {
         dispatch({
             type: 'UPDATE_ACTIVE_NODE_STATE',
             payload: null,
+            // payload: 0,
         })
 
         // Updating location
@@ -82,7 +83,7 @@ const DashboardScreen = (props) => {
     useEffect(() => {
         // Did mount
         window.addEventListener('resize', () => {
-            setWindowWidth(window.innerWidth)
+            setWindowWidth(window.innerWidth + 520)
             setWindowHeight(window.innerHeight)
         })
 
