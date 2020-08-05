@@ -8,6 +8,7 @@ import { FlyToInterpolator } from 'react-map-gl'
 import { fetchPetrolTanksLevels } from '../lib/data/petrolStationData'
 import mapBoxConstants from '../lib/mapBoxConstants'
 import animationsCombined from '../lib/animationsCombined'
+import useInterval from '../lib/useInterval'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -240,6 +241,11 @@ const PetrolStationLocationMarker = (props) => {
         fetchTankLevels()
         // eslint-disable-next-line
     }, [])
+
+    // Auto refresh values
+    useInterval(() => {
+        fetchTankLevels()
+    }, 10000)
 
     // Updating side panel active node to current node
     const updateActiveNodeToCurrentNode = () => {

@@ -52,7 +52,7 @@ export const fetchPetrolStationsLocations = async () => {
 
 // Generating fake petrol tanks levels
 export const fetchPetrolTanksLevels = async (id) => {
-    const timeOutVal = Math.floor(Math.random() * 8000) + 100 // Fake random api response time for checking tank levels
+    const timeOutVal = Math.floor(Math.random() * 4000) + 100 // Fake random api response time for checking tank levels
     await timeOut(timeOutVal)
 
     // Getting available petrol types for station
