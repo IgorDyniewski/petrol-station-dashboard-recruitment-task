@@ -7,6 +7,7 @@ import { FlyToInterpolator } from 'react-map-gl'
 // Lib
 import { fetchPetrolTanksLevels } from '../lib/data/petrolStationData'
 import mapBoxConstants from '../lib/mapBoxConstants'
+import animationsCombined from '../lib/animationsCombined'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -192,14 +193,6 @@ const LevelBarMain = styled.div`
     width: 100%;
     background-color: #d9d9d9;
 `
-const AnimationLevelBarInner = keyframes`
- 0%{
-     width: 0%;
- }
- 100% {
-     width: 100%;
- }
-`
 const LevelBarInner = styled.div`
     height: 100%;
     width: ${(props) => props.level + '%'};
@@ -208,7 +201,7 @@ const LevelBarInnerColor = styled.div`
     width: 100%;
     height: 100%;
     background-color: ${(props) => (props.level > 50 ? '#65C65D' : props.level > 20 ? '#5093ff' : '#FF5050')};
-    animation: ${AnimationLevelBarInner} 800ms;
+    animation: ${animationsCombined};
 `
 
 const PetrolStationLocationMarker = (props) => {
