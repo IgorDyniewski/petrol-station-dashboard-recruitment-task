@@ -47,7 +47,7 @@ const SideBarLivePricesWidget = (props) => {
 
     return (
         <Main>
-            <WidgetTitle>Live prices</WidgetTitle>
+            <WidgetTitle>Live price</WidgetTitle>
             <Wrapper>
                 {isLoading ? (
                     <CircularProgress size={30} style={{ color: '#5093ff' }} />
