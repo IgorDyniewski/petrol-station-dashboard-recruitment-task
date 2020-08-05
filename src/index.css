@@ -21,7 +21,7 @@ mapboxgl-canvas {
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: white;
 }
 
 /* Handle */
