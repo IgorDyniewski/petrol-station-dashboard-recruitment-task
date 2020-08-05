@@ -2,7 +2,7 @@
 
 Checkout live app: [Petrol Station Dashboard](https://petrol-station-dashboard-recruitment-task.vercel.app/)
 
-![Screenshot](https://xecta-petrol-station-dashboard.vercel.app/github-screenshot.png)
+![App Screenshot](https://xecta-petrol-station-dashboard.vercel.app/github-screenshot.png)
 
 ## Setup
 1. Make sure that you have Node.js v14.5.0 and yarn v1.9.4 or above installed.
