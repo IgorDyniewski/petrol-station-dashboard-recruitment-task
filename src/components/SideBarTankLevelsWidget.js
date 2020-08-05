@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 // Components
-import { WidgetTitle } from './SidePanel'
+import { WidgetTitle, RefreshButton, TitleWrapper } from './SidePanel'
 import { CircularProgress } from '@material-ui/core'
 
 // Lib
@@ -83,21 +83,26 @@ const SideBarTankLevelsWidget = (props) => {
     const [tankLevels, setTankLevels] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
+    // Fetching tank levels
+    const fetchTankLevels = async () => {
+        setIsLoading(true)
+        const tankLevels = await fetchPetrolTanksLevels(id)
+        setIsLoading(false)
+        setTankLevels(tankLevels)
+    }
+
     // Did mount
     useEffect(() => {
-        // Fetching tank levels
-        const fetchTankLevels = async () => {
-            setIsLoading(true)
-            const tankLevels = await fetchPetrolTanksLevels(id)
-            setIsLoading(false)
-            setTankLevels(tankLevels)
-        }
         fetchTankLevels()
+        // eslint-disable-next-line
     }, [id])
 
     return (
         <Main>
-            <WidgetTitle>Tank levels</WidgetTitle>
+            <TitleWrapper>
+                <WidgetTitle>Tank levels</WidgetTitle>
+                <RefreshButton onClick={() => fetchTankLevels()} />
+            </TitleWrapper>
             <TankLevelsWrapper>
                 {isLoading ? (
                     <CircularProgress size={30} style={{ color: '#5093ff' }} />
