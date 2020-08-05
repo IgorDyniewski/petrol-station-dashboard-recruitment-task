@@ -38,6 +38,10 @@ const Button = styled.button`
     margin-left: 20px;
     cursor: pointer;
     pointer-events: all;
+    :hover {
+        transform: scale(1.1);
+    }
+    transition: transform 250ms cubic-bezier(0, 1.8, 0.92, 1.51);
 `
 const LogOutButton = styled(Button)`
     background-color: #ff50a8;
