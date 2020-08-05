@@ -4,6 +4,16 @@ Checkout live app: [Petrol Station Dashboard](https://petrol-station-dashboard-r
 
 ![Screenshot](https://xecta-petrol-station-dashboard.vercel.app/github-screenshot.png)
 
+## Setup
+1. Make sure that you have Node.js v14.5.0 and yarn v1.9.4 or above installed.
+2. Clone this repo using: `git clone https://github.com/IgorDyniewski/petrol-station-dashboard-recruitment-task.git`
+3. Move to the appropriate directory: `cd petrol-station-dashboard-recruitment-task`
+4. Run `yarn` 
+5. Run  `yarn start`
+
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
