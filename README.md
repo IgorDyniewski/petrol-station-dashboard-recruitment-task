@@ -1,4 +1,4 @@
-# Petrol station dashboard-recruitment task
+# Petrol Station Dashboard Recruitment Task
 
 Checkout live app: [Petrol Station Dashboard](https://petrol-station-dashboard-recruitment-task.vercel.app/)
 
