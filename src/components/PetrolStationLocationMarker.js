@@ -207,7 +207,7 @@ const LevelBarInner = styled.div`
 const LevelBarInnerColor = styled.div`
     width: 100%;
     height: 100%;
-    background-color: #5093ff;
+    background-color: ${(props) => (props.level > 50 ? '#65C65D' : props.level > 20 ? '#5093ff' : '#FF5050')};
     animation: ${AnimationLevelBarInner} 800ms;
 `
 
@@ -317,7 +317,7 @@ const PetrolStationLocationMarker = (props) => {
                         <LevelText>{tankLevel.type}</LevelText>
                         <LevelBarMain>
                             <LevelBarInner level={tankLevel.level}>
-                                <LevelBarInnerColor />
+                                <LevelBarInnerColor level={tankLevel.level} />
                             </LevelBarInner>
                         </LevelBarMain>
                     </LevelRow>
