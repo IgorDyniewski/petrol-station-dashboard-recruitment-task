@@ -196,6 +196,7 @@ const LevelBarMain = styled.div`
 const LevelBarInner = styled.div`
     height: 100%;
     width: ${(props) => props.level + '%'};
+    transition: width 500ms ease-in;
 `
 const LevelBarInnerColor = styled.div`
     width: 100%;
@@ -224,17 +225,18 @@ const PetrolStationLocationMarker = (props) => {
     const [isLoading, setIsLoading] = useState(true)
     const [nodeHeight, setNodeHeight] = useState(null)
 
+    // Fetching tank levels
+    const fetchTankLevels = async () => {
+        setIsLoading(true)
+        const tankLevels = await fetchPetrolTanksLevels(data.id)
+        setIsLoading(false)
+        setTankLevels(tankLevels)
+    }
+
     // Did mount
     useEffect(() => {
         // Setting node height after it renders
         setNodeHeight(nodeRef.current.clientHeight)
-
-        // Fetching tank levels
-        const fetchTankLevels = async () => {
-            const tankLevels = await fetchPetrolTanksLevels(data.id)
-            setIsLoading(false)
-            setTankLevels(tankLevels)
-        }
         fetchTankLevels()
         // eslint-disable-next-line
     }, [])
@@ -298,7 +300,7 @@ const PetrolStationLocationMarker = (props) => {
                     <Title>{data.name}</Title>
                 </TextWrapper>
                 <ButtonsWrapper>
-                    <RefreshButton ref={refreshButtonRef} />
+                    <RefreshButton ref={refreshButtonRef} onClick={() => fetchTankLevels()} />
                     <OpenItemButton ref={moreInfoButtonRef} onClick={() => onMoreInfoClick()}>
                         <OpenItemButtonIcon src={'/icons/arrow.svg'} alt="arrow icon" />
                     </OpenItemButton>
