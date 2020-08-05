@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 // Styled components
 const Main = styled.div`
@@ -23,6 +23,15 @@ const Content = styled.div`
     align-items: center;
     justify-content: flex-end;
 `
+const fadeInAnimation = keyframes`
+
+    0% {
+        transform: translateY(500px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+`
 const Button = styled.button`
     width: 50px;
     height: 50px;
@@ -38,6 +47,14 @@ const Button = styled.button`
     margin-left: 20px;
     cursor: pointer;
     pointer-events: all;
+    transition: transform 250ms cubic-bezier(0, 1.8, 0.92, 1.51);
+    transform: scale(1) translateY(500px);
+    animation: ${fadeInAnimation} 600ms forwards;
+    animation-delay: ${(props) => props.start * 100 + 'ms'};
+    animation-timing-function: cubic-bezier(0, 1.28, 1, 1);
+    /* :hover {
+        transform: scale(1.1) translateY(0px);
+    } */
 `
 const LogOutButton = styled(Button)`
     background-color: #ff50a8;
@@ -55,6 +72,10 @@ const TextWrapper = styled.div`
     @media (max-width: 552px) {
         display: none;
     }
+    transform: translateY(500px);
+    animation: ${fadeInAnimation} 600ms forwards;
+    animation-delay: ${(props) => props.start * 100 + 'ms'};
+    animation-timing-function: cubic-bezier(0, 1.28, 1, 1);
 `
 const SubTitle = styled.span`
     color: #5093ff;
@@ -80,20 +101,24 @@ const ProfilePhoto = styled.div`
     margin-left: 20px;
     cursor: pointer;
     pointer-events: all;
+    transform: translateY(500px);
+    animation: ${fadeInAnimation} 600ms forwards;
+    animation-delay: ${(props) => props.start * 200 + 'ms'};
+    animation-timing-function: cubic-bezier(0, 1.28, 1, 1);
 `
 
 const UserAccountActions = () => {
     return (
         <Main>
             <Content>
-                <LogOutButton url={'/icons/logout.svg'} />
-                <Button url={'/icons/menu.svg'} />
-                <Button url={'/icons/account.svg'} />
-                <TextWrapper>
+                <LogOutButton url={'/icons/logout.svg'} start={5} />
+                <Button url={'/icons/menu.svg'} start={4} />
+                <Button url={'/icons/account.svg'} start={3} />
+                <TextWrapper start={2}>
                     <Title>Martin Bednarczyk</Title>
                     <SubTitle>Manager</SubTitle>
                 </TextWrapper>
-                <ProfilePhoto />
+                <ProfilePhoto start={1} />
             </Content>
         </Main>
     )

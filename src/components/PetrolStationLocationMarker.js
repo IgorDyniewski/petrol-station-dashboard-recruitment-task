@@ -7,6 +7,8 @@ import { FlyToInterpolator } from 'react-map-gl'
 // Lib
 import { fetchPetrolTanksLevels } from '../lib/data/petrolStationData'
 import mapBoxConstants from '../lib/mapBoxConstants'
+import animationsCombined from '../lib/animationsCombined'
+import useInterval from '../lib/useInterval'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -192,23 +194,16 @@ const LevelBarMain = styled.div`
     width: 100%;
     background-color: #d9d9d9;
 `
-const AnimationLevelBarInner = keyframes`
- 0%{
-     width: 0%;
- }
- 100% {
-     width: 100%;
- }
-`
 const LevelBarInner = styled.div`
     height: 100%;
     width: ${(props) => props.level + '%'};
+    transition: width 500ms ease-in;
 `
 const LevelBarInnerColor = styled.div`
     width: 100%;
     height: 100%;
-    background-color: #5093ff;
-    animation: ${AnimationLevelBarInner} 800ms;
+    background-color: ${(props) => (props.level > 50 ? '#65C65D' : props.level > 20 ? '#5093ff' : '#FF5050')};
+    animation: ${animationsCombined};
 `
 
 const PetrolStationLocationMarker = (props) => {
@@ -231,20 +226,26 @@ const PetrolStationLocationMarker = (props) => {
     const [isLoading, setIsLoading] = useState(true)
     const [nodeHeight, setNodeHeight] = useState(null)
 
+    // Fetching tank levels
+    const fetchTankLevels = async () => {
+        setIsLoading(true)
+        const tankLevels = await fetchPetrolTanksLevels(data.id)
+        setIsLoading(false)
+        setTankLevels(tankLevels)
+    }
+
     // Did mount
     useEffect(() => {
         // Setting node height after it renders
         setNodeHeight(nodeRef.current.clientHeight)
-
-        // Fetching tank levels
-        const fetchTankLevels = async () => {
-            const tankLevels = await fetchPetrolTanksLevels(data.id)
-            setIsLoading(false)
-            setTankLevels(tankLevels)
-        }
         fetchTankLevels()
         // eslint-disable-next-line
     }, [])
+
+    // Auto refresh values
+    useInterval(() => {
+        fetchTankLevels()
+    }, 10000)
 
     // Updating side panel active node to current node
     const updateActiveNodeToCurrentNode = () => {
@@ -305,7 +306,7 @@ const PetrolStationLocationMarker = (props) => {
                     <Title>{data.name}</Title>
                 </TextWrapper>
                 <ButtonsWrapper>
-                    <RefreshButton ref={refreshButtonRef} />
+                    <RefreshButton ref={refreshButtonRef} onClick={() => fetchTankLevels()} />
                     <OpenItemButton ref={moreInfoButtonRef} onClick={() => onMoreInfoClick()}>
                         <OpenItemButtonIcon src={'/icons/arrow.svg'} alt="arrow icon" />
                     </OpenItemButton>
@@ -317,7 +318,7 @@ const PetrolStationLocationMarker = (props) => {
                         <LevelText>{tankLevel.type}</LevelText>
                         <LevelBarMain>
                             <LevelBarInner level={tankLevel.level}>
-                                <LevelBarInnerColor />
+                                <LevelBarInnerColor level={tankLevel.level} />
                             </LevelBarInner>
                         </LevelBarMain>
                     </LevelRow>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 // Components
-import { WidgetTitle } from './SidePanel'
+import { WidgetTitle, TitleWrapper, RefreshButton } from './SidePanel'
 import { CircularProgress } from '@material-ui/core'
 import { Line } from 'react-chartjs-2'
 
@@ -33,21 +33,26 @@ const SideBarLivePricesWidget = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState({})
 
+    // Fetching price data
+    const fetchAndUpdatePrices = async () => {
+        setIsLoading(true)
+        const data = await fetchPrices(id)
+        setData(data)
+        setIsLoading(false)
+    }
+
     // Did mount
     useEffect(() => {
-        // Fetching price data
-        const fetchAndUpdatePrices = async () => {
-            setIsLoading(true)
-            const data = await fetchPrices(id)
-            setData(data)
-            setIsLoading(false)
-        }
         fetchAndUpdatePrices()
+        // eslint-disable-next-line
     }, [id])
 
     return (
         <Main>
-            <WidgetTitle>Live prices</WidgetTitle>
+            <TitleWrapper>
+                <WidgetTitle>Live price</WidgetTitle>
+                <RefreshButton onClick={() => fetchAndUpdatePrices()} />
+            </TitleWrapper>
             <Wrapper>
                 {isLoading ? (
                     <CircularProgress size={30} style={{ color: '#5093ff' }} />

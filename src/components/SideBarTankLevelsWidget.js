@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 // Components
-import { WidgetTitle } from './SidePanel'
+import { WidgetTitle, RefreshButton, TitleWrapper } from './SidePanel'
 import { CircularProgress } from '@material-ui/core'
 
 // Lib
@@ -64,7 +64,7 @@ const LevelBarInner = styled.div`
 const LevelBarInnerColor = styled.div`
     width: 100%;
     height: 100%;
-    background-color: #5093ff;
+    background-color: ${(props) => (props.level > 50 ? '#65C65D' : props.level > 20 ? '#5093ff' : '#FF5050')};
     animation: ${AnimationLevelBarInner} 800ms;
 `
 const TankLevelsWrapper = styled.div`
@@ -83,21 +83,26 @@ const SideBarTankLevelsWidget = (props) => {
     const [tankLevels, setTankLevels] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
+    // Fetching tank levels
+    const fetchTankLevels = async () => {
+        setIsLoading(true)
+        const tankLevels = await fetchPetrolTanksLevels(id)
+        setIsLoading(false)
+        setTankLevels(tankLevels)
+    }
+
     // Did mount
     useEffect(() => {
-        // Fetching tank levels
-        const fetchTankLevels = async () => {
-            setIsLoading(true)
-            const tankLevels = await fetchPetrolTanksLevels(id)
-            setIsLoading(false)
-            setTankLevels(tankLevels)
-        }
         fetchTankLevels()
+        // eslint-disable-next-line
     }, [id])
 
     return (
         <Main>
-            <WidgetTitle>Tank levels</WidgetTitle>
+            <TitleWrapper>
+                <WidgetTitle>Tank levels</WidgetTitle>
+                <RefreshButton onClick={() => fetchTankLevels()} />
+            </TitleWrapper>
             <TankLevelsWrapper>
                 {isLoading ? (
                     <CircularProgress size={30} style={{ color: '#5093ff' }} />
@@ -108,7 +113,7 @@ const SideBarTankLevelsWidget = (props) => {
                                 <LevelText>{tankLevel.type}</LevelText>
                                 <LevelBarMain>
                                     <LevelBarInner level={tankLevel.level}>
-                                        <LevelBarInnerColor />
+                                        <LevelBarInnerColor level={tankLevel.level} />
                                     </LevelBarInner>
                                 </LevelBarMain>
                             </LevelRow>

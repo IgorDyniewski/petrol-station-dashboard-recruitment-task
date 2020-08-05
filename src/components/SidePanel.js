@@ -126,22 +126,55 @@ const ContentWrapper = styled.div`
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
+    box-sizing: border-box;
+`
+const NodeWrapper = styled.div`
     padding-left: 25px;
     padding-right: 25px;
     box-sizing: border-box;
+`
+const HorizontalLine = styled.div`
+    width: 100%;
+    border-bottom: 1px solid #ededed;
 `
 
 // Components for widgets
 export const WidgetTitle = styled.span`
     color: black;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
-    margin-top: 25px;
     position: relative;
     display: block;
     @media (max-width: 650px) {
         font-size: 16px;
     }
+`
+export const RefreshButton = styled.button`
+    width: 20px;
+    height: 20px;
+    background-image: url('/icons/refresh.svg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    margin-right: 14px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 100ms ease-in;
+    :focus {
+        outline: 0;
+    }
+    :hover {
+        opacity: 1;
+    }
+`
+export const TitleWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 25px;
 `
 
 const SidePanel = (props) => {
@@ -189,12 +222,37 @@ const SidePanel = (props) => {
             </HeaderWrapper>
             <ContentWrapper>
                 <div style={{ height: '110px' }} />
-                <TankLevels id={petrolStationData.id} />
-                <LivePrices id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <LivePrices id={petrolStationData.id} />
-                <TankLevels id={petrolStationData.id} />
-                <LivePrices id={petrolStationData.id} />
+                <NodeWrapper>
+                    <TankLevels id={petrolStationData.id} />
+                </NodeWrapper>
+                <HorizontalLine />
+                <NodeWrapper>
+                    <LivePrices id={petrolStationData.id} />
+                </NodeWrapper>
+                <HorizontalLine />
+                <NodeWrapper>
+                    <TankLevels id={petrolStationData.id} />
+                </NodeWrapper>
+                <HorizontalLine />
+                <NodeWrapper>
+                    <LivePrices id={petrolStationData.id} />
+                </NodeWrapper>
+                <HorizontalLine />
+                <NodeWrapper>
+                    <LivePrices id={petrolStationData.id} />
+                </NodeWrapper>
+                <HorizontalLine />
+                <NodeWrapper>
+                    <LivePrices id={petrolStationData.id} />
+                </NodeWrapper>
+                <HorizontalLine />
+                <NodeWrapper>
+                    <LivePrices id={petrolStationData.id} />
+                </NodeWrapper>
+                <HorizontalLine />
+                <NodeWrapper>
+                    <LivePrices id={petrolStationData.id} />
+                </NodeWrapper>
             </ContentWrapper>
             {petrolStationData.id}
         </Main>
